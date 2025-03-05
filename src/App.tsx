@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.tsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Login from './pages/Auth/Login';
+import Signup from './pages/Auth/Signup';
+import DoctorSearch from './pages/DoctorSearch';
+import DoctorProfile from './pages/DoctorProfile';
+import AppointmentBooking from './pages/AppointmentBooking';
+import DoctorDashboard from './pages/DoctorDashboard';
+import PatientDashboard from './pages/PatientDashboard';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App: React.FC = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Router>
+      <Header />
+      <Routes>
+        {/* Auth Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-export default App
+        {/* Public Routes */}
+        <Route path="/search" element={<DoctorSearch />} />
+        <Route path="/doctor/:doctorId" element={<DoctorProfile />} />
+
+        {/* Patient Portal */}
+        <Route path="/patient/dashboard" element={<PatientDashboard />} />
+        <Route path="/book/:doctorId" element={<AppointmentBooking />} />
+
+        {/* Doctor Dashboard */}
+        <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+
+        {/* Default */}
+        <Route path="/" element={<DoctorSearch />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
