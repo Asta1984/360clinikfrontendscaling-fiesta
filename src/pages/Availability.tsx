@@ -37,11 +37,6 @@ export default function Availability() {
     { id: 7, day: "Friday", startTime: "09:00", endTime: "15:00", location: "Westside Clinic" },
   ]
 
-  const locations = [
-    { id: 1, name: "City Hospital", address: "123 Main St, City Center" },
-    { id: 2, name: "Westside Clinic", address: "456 West Ave, Westside" },
-    { id: 3, name: "Medical Center", address: "789 Health Blvd, Eastside" },
-  ]
 
   return (
     <div className="space-y-6">

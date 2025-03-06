@@ -6,11 +6,9 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
-import Appointments from "./pages/Appointments";
 import Availability from "./pages/Availability";
 import Locations from "./pages/Locations";
 import Settings from "./pages/Settings";
-import { useAuthStore } from './store/authStore';
 import AppointmentBooking from './pages/AppointmentBooking';
 import DoctorProfile from './pages/Profile';
 import DoctorSearch from './pages/DoctorSearch';
@@ -22,7 +20,6 @@ const navigationItems = [
 ];
 
 function App() {
-  const { user } = useAuthStore();
 
   return (
     <Router>
@@ -40,7 +37,6 @@ function App() {
 
               {/* Doctor-specific Routes */}
               <Route path="doctor" element={<DoctorDashboard />}>
-                <Route path="appointments" element={<Appointments />} />
                 <Route path="availability" element={<Availability />} />
                 <Route path="locations" element={<Locations />} />
                 <Route path="settings" element={<Settings />} />
