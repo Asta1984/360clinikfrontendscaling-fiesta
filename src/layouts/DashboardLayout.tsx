@@ -11,11 +11,11 @@ export default function DashboardLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const navigation = [
-    { name: "Dashboard", href: "/dashboard", icon: Home },
-    { name: "Appointments", href: "/dashboard/appointments", icon: Calendar },
-    { name: "Availability", href: "/dashboard/availability", icon: Clock },
-    { name: "Locations", href: "/dashboard/locations", icon: MapPin },
-    { name: "Settings", href: "/dashboard/settings", icon: Settings },
+    { name: "Dashboard", href: "/DoctorDashboard", icon: Home },
+    { name: "Appointments", href: "/DoctorDashboard/appointments", icon: Calendar },
+    { name: "Availability", href: "/DoctorDashboard/availability", icon: Clock },
+    { name: "Locations", href: "/DoctorDashboard/locations", icon: MapPin },
+    { name: "Settings", href: "/DoctorDashboard/settings", icon: Settings },
   ]
 
   return (

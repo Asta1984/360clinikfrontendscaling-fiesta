@@ -23,12 +23,12 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="dashboard" element={<DashboardLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="dashboard/appointments" element={<Appointments />} />
-            <Route path="dashboard/availability" element={<Availability />} />
-            <Route path="dashboard/locations" element={<Locations />} />
-            <Route path="dashboard/settings" element={<Settings />} />
+            <Route path="DoctorDashboard" element={<DashboardLayout />}>
+            <Route path="DoctorDashboard" element={<Dashboard />} />
+            <Route path="DoctorDashboard/appointments" element={<Appointments />} />
+            <Route path="DoctorDashboard/availability" element={<Availability />} />
+            <Route path="DoctorDashboard/locations" element={<Locations />} />
+            <Route path="DoctorDashboard/settings" element={<Settings />} />
             </Route>
           </Routes>
         </main>
