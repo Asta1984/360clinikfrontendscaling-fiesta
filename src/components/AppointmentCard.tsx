@@ -1,32 +1,22 @@
-// src/components/AppointmentCard.tsx
-import React from 'react';
-
-export interface Appointment {
-  id: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  doctorName: string;
-  status: string;
-}
+import { Appointment } from '../store/appointmentStore';
 
 interface AppointmentCardProps {
   appointment: Appointment;
-  onCancel?: (appointmentId: string) => void;
+  onCancel: () => void;
 }
 
-const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, onCancel }) => {
+export default function AppointmentCard({ appointment, onCancel }: AppointmentCardProps) {
   return (
-    <div className="appointment-card">
-      <h3>Appointment with Dr. {appointment.doctorName}</h3>
-      <p>Date: {new Date(appointment.date).toLocaleDateString()}</p>
-      <p>Time: {appointment.startTime} - {appointment.endTime}</p>
-      <p>Status: {appointment.status}</p>
-      {onCancel && appointment.status === 'Scheduled' && (
-        <button onClick={() => onCancel(appointment.id)}>Cancel Appointment</button>
-      )}
+    <div className="p-4 border rounded-lg shadow-sm">
+      <h3 className="font-semibold">{appointment.patientName}</h3>
+      <p>{appointment.date}</p>
+      <p>{appointment.time}</p>
+      <button
+        onClick={onCancel}
+        className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+      >
+        Cancel
+      </button>
     </div>
   );
-};
-
-export default AppointmentCard;
+}

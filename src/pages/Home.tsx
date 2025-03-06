@@ -157,7 +157,7 @@ export default function Hero() {
         </p>
         </div>
         </div>
-        <BentoGrid className="lg:grid-rows-3">
+        <BentoGrid className="container lg:grid-rows-3 p-10">
             {features.map((feature) => (
                 <BentoCard key={feature.name} {...feature} />))}
         </BentoGrid>
