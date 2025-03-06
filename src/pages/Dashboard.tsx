@@ -1,14 +1,15 @@
+import SignupButton from '@/components/Signup';
 import { useAuthStore } from '../store/authStore';
-import Signup from './Auth/Signup';
 import DoctorDashboard from './DoctorDashboard';
 import PatientDashboard from './PatientDashboard';
-import Login from './Auth/Login';
+import SigninButton from '@/components/Signin';
+
 
 export default function Dashboard() {
   const { user } = useAuthStore();
 
   if (!user) {
-    return <div><Signup/><Login/></div>; // Handle unauthenticated state
+    return <div><SignupButton/><SigninButton/></div>; // Handle unauthenticated state
   }
 
   return (
