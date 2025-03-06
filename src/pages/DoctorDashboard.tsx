@@ -1,140 +1,112 @@
-// src/pages/DoctorDashboard.tsx
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuthStore } from '../store/authStore';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Calendar, Clock, MapPin, Users } from "lucide-react"
 
-interface AvailabilitySlot {
-  day: string;
-  startTime: string;
-  endTime: string;
-  consultationLocations: string[];
+export default function Dashboard() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">Welcome back, Dr. Smith. Here's an overview of your practice.</p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Appointments</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">24</div>
+            <p className="text-xs text-muted-foreground">For this week</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Today's Appointments</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">6</div>
+            <p className="text-xs text-muted-foreground">3 remaining</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Locations</CardTitle>
+            <MapPin className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">3</div>
+            <p className="text-xs text-muted-foreground">Across the city</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Working Hours</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">32h</div>
+            <p className="text-xs text-muted-foreground">This week</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Upcoming Appointments</CardTitle>
+            <CardDescription>Your next 5 appointments</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {[
+                { patient: "John Doe", time: "Today, 10:00 AM", type: "Check-up" },
+                { patient: "Jane Smith", time: "Today, 11:30 AM", type: "Consultation" },
+                { patient: "Robert Johnson", time: "Today, 2:00 PM", type: "Follow-up" },
+                { patient: "Emily Davis", time: "Tomorrow, 9:30 AM", type: "New Patient" },
+                { patient: "Michael Brown", time: "Tomorrow, 11:00 AM", type: "Check-up" },
+              ].map((appointment, index) => (
+                <div key={index} className="flex items-center justify-between border-b pb-2 last:border-0 last:pb-0">
+                  <div>
+                    <p className="font-medium">{appointment.patient}</p>
+                    <p className="text-sm text-muted-foreground">{appointment.type}</p>
+                  </div>
+                  <div className="text-sm text-right">{appointment.time}</div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Active Locations</CardTitle>
+            <CardDescription>Where you're currently practicing</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {[
+                { name: "City Hospital", address: "123 Main St, City Center", days: "Mon, Wed, Fri" },
+                { name: "Westside Clinic", address: "456 West Ave, Westside", days: "Tue, Thu" },
+                { name: "Medical Center", address: "789 Health Blvd, Eastside", days: "Sat" },
+              ].map((location, index) => (
+                <div key={index} className="flex items-start justify-between border-b pb-2 last:border-0 last:pb-0">
+                  <div>
+                    <p className="font-medium">{location.name}</p>
+                    <p className="text-sm text-muted-foreground">{location.address}</p>
+                  </div>
+                  <div className="text-sm text-right">{location.days}</div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
 }
 
-const DoctorDashboard: React.FC = () => {
-  const { token } = useAuthStore();
-  const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
-  const [newSlot, setNewSlot] = useState<AvailabilitySlot>({
-    day: 'Monday',
-    startTime: '',
-    endTime: '',
-    consultationLocations: [''],
-  });
-  const [appointments, setAppointments] = useState<any[]>([]);
-
-  const fetchAppointments = async () => {
-    try {
-      const res = await axios.get('/api/v1/appointments/doctor', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setAppointments(res.data.appointments);
-    } catch (error) {
-      console.error('Error fetching appointments:', error);
-    }
-  };
-
-  const updateAvailability = async () => {
-    try {
-      const res = await axios.put(
-        '/api/v1/appointments/doctor/availability',
-        { availabilitySlots: [newSlot] },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setAvailability(res.data.availabilitySlots);
-    } catch (error) {
-      console.error('Error updating availability:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
-
-  return (
-    <div className="doctor-dashboard">
-      <h2>Doctor Dashboard</h2>
-      <section>
-        <h3>Set Availability</h3>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            updateAvailability();
-          }}
-        >
-          <label>
-            Day:
-            <select
-              value={newSlot.day}
-              onChange={(e) =>
-                setNewSlot((prev) => ({ ...prev, day: e.target.value }))
-              }
-            >
-              {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
-                <option key={day} value={day}>{day}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Start Time:
-            <input
-              type="time"
-              value={newSlot.startTime}
-              onChange={(e) =>
-                setNewSlot((prev) => ({ ...prev, startTime: e.target.value }))
-              }
-              required
-            />
-          </label>
-          <label>
-            End Time:
-            <input
-              type="time"
-              value={newSlot.endTime}
-              onChange={(e) =>
-                setNewSlot((prev) => ({ ...prev, endTime: e.target.value }))
-              }
-              required
-            />
-          </label>
-          <label>
-            Consultation Locations (comma separated):
-            <input
-              type="text"
-              onChange={(e) =>
-                setNewSlot((prev) => ({
-                  ...prev,
-                  consultationLocations: e.target.value.split(',').map(s => s.trim()),
-                }))
-              }
-              required
-            />
-          </label>
-          <button type="submit">Update Availability</button>
-        </form>
-        {availability && availability.length > 0 && (
-          <div>
-            <h4>Current Availability</h4>
-            <ul>
-              {availability.map((slot, i) => (
-                <li key={i}>
-                  {slot.day}: {slot.startTime} - {slot.endTime} at {slot.consultationLocations.join(', ')}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </section>
-      <section>
-        <h3>Upcoming Appointments</h3>
-        <ul>
-          {appointments.map((apt, i) => (
-            <li key={i}>
-              {apt.date} from {apt.startTime} to {apt.endTime} with Patient ID: {apt.patientId}
-            </li>
-          ))}
-        </ul>
-      </section>
-    </div>
-  );
-};
-
-export default DoctorDashboard;

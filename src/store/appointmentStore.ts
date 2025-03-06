@@ -1,5 +1,5 @@
 // src/store/appointmentStore.ts
-import create from 'zustand';
+import {create} from 'zustand';
 import axios from 'axios';
 import { Appointment } from '../components/AppointmentCard';
 

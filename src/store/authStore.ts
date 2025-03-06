@@ -1,5 +1,5 @@
 // src/store/authStore.ts
-import create from 'zustand';
+import {create} from 'zustand';
 
 export interface AuthState {
   user: { id: string; email: string; role: 'doctor' | 'patient' } | null;

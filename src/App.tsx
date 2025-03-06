@@ -1,40 +1,41 @@
-// src/App.tsx
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Login from './pages/Auth/Login';
-import Signup from './pages/Auth/Signup';
-import DoctorSearch from './pages/DoctorSearch';
-import DoctorProfile from './pages/DoctorProfile';
-import AppointmentBooking from './pages/AppointmentBooking';
-import DoctorDashboard from './pages/DoctorDashboard';
-import PatientDashboard from './pages/PatientDashboard';
+import { AnimatedNavigationTabs } from './components/ui/animated-navigation-tabs';
+import Home from './pages/Home';
+import { Foooter } from './components/Foooter';
+import DashboardLayout from "./layouts/DashboardLayout"
+import Dashboard from "./pages/DoctorDashboard"
+import Appointments from "./pages/DoctorAppointments"
+import Availability from "./pages/DoctorAvailability"
+import Locations from "./pages/Locations"
+import Settings from "./pages/Settings"
 
-const App: React.FC = () => {
+const navigationItems = [
+  { id: 1, title: 'Home', path: '/' },
+  { id: 2, title: 'Doctor', path: '/DoctorDashboard' },
+  { id: 3, title: 'Patient', path: '/PatientDashboard' },
+];
+
+function App() {
   return (
     <Router>
-      <Header />
-      <Routes>
-        {/* Auth Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-
-        {/* Public Routes */}
-        <Route path="/search" element={<DoctorSearch />} />
-        <Route path="/doctor/:doctorId" element={<DoctorProfile />} />
-
-        {/* Patient Portal */}
-        <Route path="/patient/dashboard" element={<PatientDashboard />} />
-        <Route path="/book/:doctorId" element={<AppointmentBooking />} />
-
-        {/* Doctor Dashboard */}
-        <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
-
-        {/* Default */}
-        <Route path="/" element={<DoctorSearch />} />
-      </Routes>
+      <div className="flex flex-col min-h-screen">
+        <AnimatedNavigationTabs items={navigationItems} />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="dashboard" element={<DashboardLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard/appointments" element={<Appointments />} />
+            <Route path="dashboard/availability" element={<Availability />} />
+            <Route path="dashboard/locations" element={<Locations />} />
+            <Route path="dashboard/settings" element={<Settings />} />
+            </Route>
+          </Routes>
+        </main>
+      </div>
+      <Foooter/>
     </Router>
   );
-};
+}
 
 export default App;
