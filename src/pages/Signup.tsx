@@ -2,16 +2,16 @@ import { useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "../components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useId } from "react";
+import SigninButton from "./Signin";
 
 export default function SignupButton() {
   const id = useId();
@@ -20,7 +20,11 @@ export default function SignupButton() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // Patient field
-  const [fullName, setFullName] = useState("");
+  const [pfirstName, setpFirstName] = useState("");
+  const [plastName, setpLastName] = useState("");
+  const [patientDateOfBirth, setPatientDateOfBirth] = useState("");
+  const [patientContactNumber, setPatientContactNumber] = useState("");
+
   // Doctor fields
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -29,9 +33,10 @@ export default function SignupButton() {
   const [locationCity, setLocationCity] = useState("");
   const [locationState, setLocationState] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-
+  const [isSignedUp, setIsSignedUp] = useState(false); // new state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
 
   const handleSignup = async () => {
     setLoading(true);
@@ -59,16 +64,18 @@ export default function SignupButton() {
           contactNumber,
           }
         : {
-            fullName,
-            email,
-            password,
-          };
-
+          email,
+          password,
+          firstName:pfirstName,
+          lastName:plastName,
+          dateOfBirth: patientDateOfBirth,
+          contactNumber: patientContactNumber,
+        };
     try {
       const { data } = await axios.post(endpoint, payload,{
         headers: { "Content-Type": "application/json" }});
       console.log("Signed up successfully", data);
-      // Process successful signup (e.g., redirect or update auth state)
+      setIsSignedUp(true); // set signup success
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || "Signup failed");
@@ -78,14 +85,12 @@ export default function SignupButton() {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Sign up</Button>
-      </DialogTrigger>
-      <DialogContent>
+    <div className="flex flex-col items-center mt-20">
+      <Card className=" md:w-2/5 bg-secondary/40 ">
+      <CardContent>
         <div className="flex flex-col w-full items-center gap-2">
           <div
-            className="flex size-11 shrink-0 items-center justify-center rounded-full border border-border"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full border border-border mt-8"
             aria-hidden="true"
           >
             <svg
@@ -99,14 +104,14 @@ export default function SignupButton() {
               <circle cx="16" cy="16" r="12" fill="none" strokeWidth="8" />
             </svg>
           </div>
-          <DialogHeader>
-            <DialogTitle className="sm:text-center">Sign up</DialogTitle>
-            <DialogDescription className="sm:text-center">
+          <CardHeader>
+            <CardTitle className="sm:text-center">Sign up</CardTitle>
+            <CardDescription className="sm:text-center mb-8">
               We just need a few details to get you started.
-            </DialogDescription>
-          </DialogHeader>
+            </CardDescription>
+          </CardHeader>
         </div>
-
+        {!isSignedUp ? (
         <form
           className="space-y-5"
           onSubmit={(e) => {
@@ -145,7 +150,8 @@ export default function SignupButton() {
             {/* Fields for doctor signup */}
             {role === "doctor" ? (
               <>
-                <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
                   <Label htmlFor={`${id}-firstName`}>First Name</Label>
                   <Input
                     id={`${id}-firstName`}
@@ -179,7 +185,7 @@ export default function SignupButton() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`${id}-experience`}>Experience (years)</Label>
+                  <Label htmlFor={`${id}-experience`}>Experience</Label>
                   <Input
                     id={`${id}-experience`}
                     placeholder="5"
@@ -212,7 +218,7 @@ export default function SignupButton() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`${id}-contactNumber`}>Contact Number</Label>
+                  <Label htmlFor={`${id}-contactNumber`}>Contact</Label>
                   <Input
                     id={`${id}-contactNumber`}
                     placeholder="1234567890"
@@ -222,20 +228,57 @@ export default function SignupButton() {
                     onChange={(e) => setContactNumber(e.target.value)}
                   />
                 </div>
+              </div>
               </>
             ) : (
               // Fields for patient signup
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor={`${id}-firstName`}>First Name</Label>
+                  <Input
+                    id={`${id}-firstName`}
+                    placeholder="Jane"
+                    type="text"
+                    required
+                    value={pfirstName}
+                    onChange={(e) => setpFirstName(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor={`${id}-lastName`}>Last Name</Label>
+                  <Input
+                    id={`${id}-lastName`}
+                    placeholder="Doe"
+                    type="text"
+                    required
+                    value={plastName}
+                    onChange={(e) => setpLastName(e.target.value)}
+                  />
+                </div>
+              
               <div className="space-y-2">
-                <Label htmlFor={`${id}-name`}>Full Name</Label>
+                <Label htmlFor={`${id}-dateOfBirth`}>Date of Birth</Label>
                 <Input
-                  id={`${id}-name`}
-                  placeholder="Matt Welsh"
-                  type="text"
+                  id={`${id}-dateOfBirth`}
+                  placeholder="1990-05-15"
+                  type="date"
                   required
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  value={patientDateOfBirth}
+                  onChange={(e) => setPatientDateOfBirth(e.target.value)}
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor={`${id}-patientContactNumber`}>Contact Number</Label>
+                <Input
+                  id={`${id}-patientContactNumber`}
+                  placeholder="1234567890"
+                  type="text"
+                  required
+                  value={patientContactNumber}
+                  onChange={(e) => setPatientContactNumber(e.target.value)}
+                />
+              </div>
+            </div>
             )}
 
             {/* Common fields */}
@@ -267,13 +310,20 @@ export default function SignupButton() {
             {loading ? "Signing up..." : "Sign up"}
           </Button>
         </form>
+        ) : (
+          // After successful signup, render the SigninButton
+          <div className="flex flex-col items-center gap-4">
+            <p className="text-green-600">Signup successful!</p>
+            <SigninButton />
+          </div>
+        )}
 
         <div className="flex items-center gap-3 before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
           <span className="text-xs text-muted-foreground">Or</span>
         </div>
-
-        <Button variant="outline">Continue with Google</Button>
-
+        <div className="flex flex-col items-center">
+         <Button variant="outline">Login with Google</Button>
+         </div>
         <p className="text-center text-xs text-muted-foreground">
           By signing up you agree to our{" "}
           <a className="underline hover:no-underline" href="#">
@@ -281,7 +331,8 @@ export default function SignupButton() {
           </a>
           .
         </p>
-      </DialogContent>
-    </Dialog>
+      </CardContent>
+    </Card>
+    </div>
   );
 }

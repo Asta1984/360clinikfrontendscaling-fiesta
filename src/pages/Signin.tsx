@@ -3,13 +3,12 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "../components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useId } from "react";
@@ -44,11 +43,9 @@ export default function SigninButton() {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Sign in</Button>
-      </DialogTrigger>
-      <DialogContent>
+    <div className="flex flex-col items-center mt-20">
+      <Card className=" md:w-1/3 bg-secondary/40">
+      <CardContent>
         <div className="flex flex-col items-center gap-2">
           <div
             className="flex size-11 shrink-0 items-center justify-center rounded-full border border-border"
@@ -65,12 +62,12 @@ export default function SigninButton() {
               <circle cx="16" cy="16" r="12" fill="none" strokeWidth="8" />
             </svg>
           </div>
-          <DialogHeader>
-            <DialogTitle className="sm:text-center">Welcome back</DialogTitle>
-            <DialogDescription className="sm:text-center">
+          <CardHeader>
+            <CardTitle className="sm:text-center">Welcome back</CardTitle>
+            <CardDescription className="sm:text-center mb-8">
               Enter your credentials to login to your account.
-            </DialogDescription>
-          </DialogHeader>
+            </CardDescription>
+          </CardHeader>
         </div>
 
         <form
@@ -149,9 +146,11 @@ export default function SigninButton() {
         <div className="flex items-center gap-3 before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
           <span className="text-xs text-muted-foreground">Or</span>
         </div>
-
-        <Button variant="outline">Login with Google</Button>
-      </DialogContent>
-    </Dialog>
+         <div className="flex flex-col items-center">
+         <Button variant="outline">Login with Google</Button>
+         </div>
+      </CardContent>
+    </Card>
+    </div>
   );
 }

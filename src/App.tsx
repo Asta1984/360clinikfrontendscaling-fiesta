@@ -1,30 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AnimatedNavigationTabs } from './components/ui/animated-navigation-tabs';
 import Home from './pages/Home';
 import { Foooter } from './components/Foooter';
+import SignupButton from './pages/Signup';
+import SigninButton from './pages/Signin';
+import Navbar from './components/Navbar';
 
 
-const navigationItems = [
-  { id: 1, title: 'Home', path: '/' },
-  { id: 2, title: 'Dashboard', path: '/dashboard' },
-];
-
-function App() {
-
+export default function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
-        <AnimatedNavigationTabs items={navigationItems} />
-        <main className="flex-1">
+      <Navbar />
           <Routes>
-            {/* Home Route */}
             <Route path="/" element={<Home />} />
+            <Route path="/Signup" element={<SignupButton />} />
+            <Route path="/Signin" element={<SigninButton />} />
           </Routes>
-        </main>
-      </div>
       <Foooter />
     </Router>
   );
 }
-
-export default App;
