@@ -4,7 +4,7 @@ import { Foooter } from './components/Foooter';
 import SignupButton from './pages/Signup';
 import SigninButton from './pages/Signin';
 import Navbar from './components/Navbar';
-
+import Dashboard from './pages/Dashboard';
 
 export default function App() {
   return (
@@ -14,6 +14,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/Signup" element={<SignupButton />} />
             <Route path="/Signin" element={<SigninButton />} />
+            <Route path="/Dashboard" element={<Dashboard/>}/>
           </Routes>
       <Foooter />
     </Router>
