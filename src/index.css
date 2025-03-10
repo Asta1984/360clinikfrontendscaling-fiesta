@@ -203,9 +203,9 @@
 
 body {
   
-  background: radial-gradient(circle,#f8f9fa, #d1d5db,#71717a);
+  background: radial-gradient(circle,#f8f9fa, #b4db8cdf,#71717a);
   background-size: 300% 300%;
-  animation: gradientMove 100s ease infinite; /* Smooth motion */
+  animation: gradientMove 25s ease infinite; /* Smooth motion */
 }
 /* Gradient animation */
 @keyframes gradientMove {

@@ -62,7 +62,7 @@ const StackingNavbarItem: React.FC<StackingNavbarItemProps> = ({
         to={to}
         className={({ isActive }) => 
           `flex items-center text-sm px-5 py-3 rounded-3xl bg-[#b0aaaa1a] no-underline backdrop-blur-lg transition-colors duration-300 ease-in-out
-          ${isActive ? 'bg-slate-500 text-secondary' : 'text-accent hover:bg-slate-700 hover:text-blue-300'}`
+          ${isActive ? 'bg-slate-500 font-bold text-secondary' : 'text-accent font-bold hover:bg-slate-700 hover:text-blue-300'}`
         }
       >
         {children}
