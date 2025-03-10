@@ -125,7 +125,7 @@
 
 
 @layer utilities {
-  /* Chrome scrollbar styles */
+  /* Your existing scrollbar styles */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -146,45 +146,12 @@
     background-color: hsl(var(--accent-foreground));
   }
 
-  /* Custom variants */
-  .dark-scrollbar::-webkit-scrollbar-track {
-    background-color: hsl(var(--muted));
-  }
-
-  .dark-scrollbar::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--accent));
-    border: 2px solid hsl(var(--muted));
-  }
-
-  /* Thin scrollbar variant */
-  .thin-scrollbar::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-  }
-
-  /* Minimal scrollbar variant */
-  .minimal-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .minimal-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .minimal-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    border: none;
-  }
-
-  .minimal-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-  }
-
-  /* Hide scrollbar but keep functionality */
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+  /* Hide horizontal overflow globally */
+  html, body {
+    overflow-x: hidden;
   }
 }
+
 
 @keyframes marquee {
   0% { transform: translateX(0%); }
