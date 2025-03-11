@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import { Foooter } from './components/Foooter';
+import { Foooter } from './components/HOC/Foooter';
 import SignupButton from './pages/Signup';
 import SigninButton from './pages/Signin';
-import Navbar from './components/Navbar';
+import Navbar from './components/HOC/Navbar';
 import Dashboard from './pages/Dashboard';
 
 export default function App() {

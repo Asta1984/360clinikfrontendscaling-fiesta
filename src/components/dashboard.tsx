@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import ProfileStucture from "@/components/common_profile_card";
-import { Appointment_Calendar } from '../components/HOC/appointment_calender';
+import { Appointment_Calendar } from './HOC/appointment_calender';
 import Searchbar from '@/components/HOC/search_bar';
 import Appointment_accordian from '@/components/HOC/appointment_sec';
 import DocProfileCard from '@/components/HOC/doctor_profile_card';

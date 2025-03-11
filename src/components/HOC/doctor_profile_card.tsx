@@ -6,7 +6,7 @@ import {
   DisclosureTrigger,
 } from "@/components/ui/disclosure";
 import { Circle } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 
 
@@ -31,7 +31,8 @@ export default function DocProfileCard() {
   };
 
   return (
-    <div className="relative h-[350px] w-[290px] overflow-hidden rounded-xl">
+    <div className='flex p-10'>
+      <div className="relative h-[350px] w-[290px] overflow-hidden rounded-xl">
       <div onClick={() => setIsOpen(!isOpen)}>
         <motion.img
           src="https://apollosage.in/assets/images/doctors/dr-akhil-tiwari.webp"
@@ -74,5 +75,7 @@ export default function DocProfileCard() {
         </DisclosureContent>
       </Disclosure>
     </div>
+    </div>
+
   );
 }

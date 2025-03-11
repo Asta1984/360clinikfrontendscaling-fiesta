@@ -1,5 +1,4 @@
-import AppointmentNotification from "./ui/appointment_notification.tsx";
-
+import AppointmentNotification from "../ui/appointment_notification.tsx.tsx";
 
 
 const dummyEvents = [
@@ -58,16 +57,19 @@ const dummyEvents = [
   
 export default function Appointment_accordian() {
     return(
-        <>
-        {dummyEvents.map(dayGroup => (
-        dayGroup.events.map(event => (
-        <AppointmentNotification
-        key={event.id}
-        event={event}
-        date={dayGroup.day}
-        />
-       ))
-    ))}
-    </>
+      <>
+      <div className='border bg-gradient-to-br from-transparent via-zinc-200 to-transparent p-6 shadow-xl  rounded-3xl border-primary border-t-8'>
+        <h3 className='text-3xl mt-10 font-bold flex justify-center p-4'>Todays' Appointments</h3>
+          {dummyEvents.map(dayGroup => (
+          dayGroup.events.map(event => (
+          <AppointmentNotification
+          key={event.id}
+          event={event}
+          date={dayGroup.day}
+          />
+         ))
+        ))}
+      </div>
+      </>
     )
 }

@@ -1,12 +1,12 @@
-import { Check, ChevronDown } from 'lucide-react';
-import { Button } from './ui/button';
+import { Check } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface ProfileCardProps {
   firstName: string;
   lastName: string;
   email: string;
   dateofbirth: string;
-  location: string;
+  contact: string;
 }
 
 export function ProfileCard({
@@ -14,10 +14,11 @@ export function ProfileCard({
   lastName,
   email,
   dateofbirth,
-  location,
+  contact,
 
 }: ProfileCardProps) {
   return (
+
     <div className="w-[400px] rounded-3xl overflow-hidden bg-gradient-to-br from-transparent via-zinc-200 to-transparent p-6 shadow-xl border-primary border-r-4">
       {/* Header */}
       <div className="flex justify-between items-start mb-6">
@@ -76,9 +77,8 @@ export function ProfileCard({
           <label className="flex justify-items-start text-sm text-gray-500 mb-1">Location</label>
           <button className="w-full px-3 py-2 rounded-lg bg-white/50 border border-gray-200 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span>{location}</span>
+              <span>{contact}</span>
             </div>
-            <ChevronDown size={16} />
           </button>
         </div>
 

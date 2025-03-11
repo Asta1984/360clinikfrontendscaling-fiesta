@@ -1,5 +1,5 @@
-import { cn } from "../lib/utils";
-import { Button } from "../components/ui/button";
+import { cn } from "../../lib/utils";
+import { Button } from "../ui/button";
 import {
   Command,
   CommandEmpty,
@@ -7,9 +7,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../components/ui/command";
-import { Label } from "../components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover";
+} from "../ui/command";
+import { Label } from "../ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Check, ChevronDown } from "lucide-react";
 import { useId, useState } from "react";
 
@@ -86,6 +86,7 @@ export default function Searchbar() {
   const [value, setValue] = useState<string>("");
 
   return (
+    <div className=' border bg-gradient-to-br from-transparent via-zinc-200 to-transparent p-6 shadow-xl  rounded-3xl border-primary  md:w-1/2 border-t-8'>
     <div className="space-y-2 min-w-[300px]">
       <Label htmlFor={id}>Select with search</Label>
       <Popover open={open} onOpenChange={setOpen}>
@@ -139,6 +140,7 @@ export default function Searchbar() {
           </Command>
         </PopoverContent>
       </Popover>
+    </div>
     </div>
   );
 }

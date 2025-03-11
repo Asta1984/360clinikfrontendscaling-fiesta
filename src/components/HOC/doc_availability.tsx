@@ -1,4 +1,4 @@
-import { FullScreenCalendar } from "./ui/fullscreen-calendar";
+import { FullScreenCalendar } from "../ui/fullscreen-calendar";
 
 const dummyEvents = [
     {

@@ -1,6 +1,6 @@
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
-import { TestimonialsSection } from "@/components/testimonials-with-marquee";
+import { TestimonialsSection } from "@/components/HOC/testimonials-with-marquee";
 import {
     BellIcon,
     CalendarIcon,

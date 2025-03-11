@@ -1,4 +1,4 @@
-import { FullScreenCalendar } from "./ui/fullscreen-calendar"
+import { FullScreenCalendar } from "../ui/fullscreen-calendar"
 
 const dummyEvents = [
   {
@@ -102,8 +102,12 @@ const dummyEvents = [
 
 function Appointment_Calendar() {
   return (
-    <div className="flex h-screen flex-col scale-75">
-      <FullScreenCalendar data={dummyEvents} />
+
+      <div className='sm:mb-5 md:-mt-12 md:-mx-16 '>
+            <div className="flex h-screen flex-col scale-75">
+            <FullScreenCalendar data={dummyEvents} />
+            
+            </div>
     </div>
   )
 }

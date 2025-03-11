@@ -1,4 +1,4 @@
-import { StackingNavbar } from "./ui/stacking-navbar";
+import { StackingNavbar } from "../ui/stacking-navbar";
 
 export default function Navbar() {
     return(
