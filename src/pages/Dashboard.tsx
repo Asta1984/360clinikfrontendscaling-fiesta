@@ -3,7 +3,6 @@ import ProfileStucture from "@/components/common_profile_card";
 import { Appointment_Calendar } from '../components/HOC/appointment_calender';
 import SearchComponent from "@/components/HOC/search_bar";
 import Appointment_accordian from '@/components/HOC/appointment_sec';
-import DocProfileCard from '@/components/HOC/doctor_profile_card';
 import Update_Avail from '@/components/HOC/doc_availability';
 import { Button } from '@/components/ui/button';
 import Update_Status from "@/components/update_status";
