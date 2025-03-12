@@ -1,81 +1,207 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  Disclosure,
-  DisclosureContent,
-  DisclosureTrigger,
-} from "@/components/ui/disclosure";
-import { Circle } from "lucide-react";
-import { Button } from "../ui/button";
+import React, { useState } from 'react';
+import { MapPin, Stethoscope, Phone, Mail, Calendar } from 'lucide-react';
 
+interface Doctor {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  specialty: string;
+  location: {
+    city: string;
+    state: string;
+  };
+}
 
+interface AppointmentData {
+  doctorId: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  consultationLocation: string;
+}
 
-export default function DocProfileCard() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function DoctorCard({ doctor }: { doctor: Doctor }) {
+  const [showBooking, setShowBooking] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [appointmentData, setAppointmentData] = useState<AppointmentData>({
+    doctorId: doctor._id,
+    date: '',
+    startTime: '',
+    endTime: '',
+    consultationLocation: 'Online'
+  });
 
-  const imageVariants = {
-    collapsed: { scale: 1, filter: "blur(0px)" },
-    expanded: { scale: 1.1, filter: "blur(3px)" },
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setAppointmentData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const contentVariants = {
-    collapsed: { opacity: 0, y: 0 },
-    expanded: { opacity: 1, y: 0 },
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccess(null);
 
-  const transition = {
-    type: "spring",
-    stiffness: 26.7,
-    damping: 4.1,
-    mass: 0.2,
+    try {
+      const response = await fetch('https://three60clinicanimated-eureka.onrender.com/api/v1/appointments/book', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add your authentication header here
+          'Authorization': 'Bearer YOUR_TOKEN_HERE'
+        },
+        body: JSON.stringify(appointmentData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to book appointment');
+      }
+
+      setSuccess('Appointment booked successfully!');
+      setShowBooking(false);
+      setAppointmentData({
+        doctorId: doctor._id,
+        date: '',
+        startTime: '',
+        endTime: '',
+        consultationLocation: 'Online'
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to book appointment');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className='flex p-10'>
-      <div className="relative h-[350px] w-[290px] overflow-hidden rounded-xl">
-      <div onClick={() => setIsOpen(!isOpen)}>
-        <motion.img
-          src="https://apollosage.in/assets/images/doctors/dr-akhil-tiwari.webp"
-          alt="doctor profile card"
-          className="pointer-events-none h-auto w-full select-none"
-          animate={isOpen ? "expanded" : "collapsed"}
-          variants={imageVariants}
-          transition={transition}>
-          </motion.img>
-          <div className="absolute flex items-center top-3 left-3 p-2 border rounded-3xl border-primary rounded">
-             <Circle className="h-2 w-2 fill-rose-500/80" />
-              <p className="ml-1 text-xs">Bhopal</p>
+    <div className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+      <div className="flex justify-between items-start">
+        <div>
+          <h3 className="text-xl font-semibold text-gray-900">
+            Dr. {doctor.firstName} {doctor.lastName}
+          </h3>
+          <div className="flex items-center gap-2 text-gray-600 mt-2">
+            <Stethoscope className="w-4 h-4" />
+            <span>{doctor.specialty}</span>
           </div>
-
-      
-      </div>
-      <Disclosure
-        onOpenChange={setIsOpen}
-        open={isOpen}
-        className="absolute bottom-0 left-0 right-0 rounded-xl bg-zinc-900 px-4 pt-2 dark:bg-zinc-50"
-        variants={contentVariants}
-        transition={transition}
-      >
-        <DisclosureTrigger>
-          <button
-            className="w-full pb-2 text-left text-[14px] font-medium text-white dark:text-zinc-900"
-            type="button"
-            onClick={() => setIsOpen(!isOpen)}
+          <div className="flex items-center gap-2 text-gray-600 mt-1">
+            <MapPin className="w-4 h-4" />
+            <span>{doctor.location.city}, {doctor.location.state}</span>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <a
+            href={`tel:${doctor.phone}`}
+            className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
           >
-          Dr. Akhil Tiwari
-          </button>
-        </DisclosureTrigger>
-        <DisclosureContent>
-          <div className="flex flex-col pb-4 text-[13px] text-zinc-300 dark:text-zinc-700">
-            <p>Dr. Akhil Kumar Tiwari is the top internal medicine physician in Bhopal. He has 37 years of rich experience in the internal medicine field. He has expertise in treating and management of infectious disease</p>
-            <Button variant={"secondary"} className="mt-3">
-              Book consultation
-            </Button>
-          </div>
-        </DisclosureContent>
-      </Disclosure>
-    </div>
-    </div>
+            <Phone className="w-4 h-4" />
+            <span>{doctor.phone}</span>
+          </a>
+          <a
+            href={`mailto:${doctor.email}`}
+            className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+          >
+            <Mail className="w-4 h-4" />
+            <span>{doctor.email}</span>
+          </a>
+        </div>
+      </div>
 
+      <div className="mt-4 border-t pt-4">
+        <button
+          onClick={() => setShowBooking(!showBooking)}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          <Calendar className="w-4 h-4" />
+          Book Appointment
+        </button>
+
+        {showBooking && (
+          <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  name="date"
+                  value={appointmentData.date}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                  min={new Date().toISOString().split('T')[0]}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Start Time
+                </label>
+                <input
+                  type="time"
+                  name="startTime"
+                  value={appointmentData.startTime}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  End Time
+                </label>
+                <input
+                  type="time"
+                  name="endTime"
+                  value={appointmentData.endTime}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Consultation Type
+                </label>
+                <select
+                  name="consultationLocation"
+                  value={appointmentData.consultationLocation}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                >
+                  <option value="Online">Online</option>
+                  <option value="In-Person">In-Person</option>
+                </select>
+              </div>
+            </div>
+
+            {error && (
+              <div className="text-red-600 text-sm">{error}</div>
+            )}
+            {success && (
+              <div className="text-green-600 text-sm">{success}</div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400"
+            >
+              {isLoading ? 'Booking...' : 'Confirm Booking'}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
   );
 }

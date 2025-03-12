@@ -13,10 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useId } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useAuthStore } from "../stores/authStore"; // Import Zustand store
+
 
 export default function SigninButton() {
   const id = useId();
   const navigate = useNavigate(); // Initialize navigate
+  const { setToken } = useAuthStore(); // Zustand hook to store token
   const [role, setRole] = useState("doctor"); // default selection
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,10 +38,9 @@ export default function SigninButton() {
     try {
       const { data } = await axios.post(endpoint, { email, password });
       console.log("Signed in successfully", data);
-      // Optionally, store token or user info as needed
-
+      setToken(data.token); // Store token in Zustand
       // Navigate to the dashboard (protected route) on successful signin
-      navigate("/Dashboard");
+      navigate("/Dashboard", { state: { role } });
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || "Sign in failed");

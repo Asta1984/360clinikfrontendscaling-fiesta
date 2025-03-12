@@ -5,6 +5,8 @@ import SignupButton from './pages/Signup';
 import SigninButton from './pages/Signin';
 import Navbar from './components/HOC/Navbar';
 import Dashboard from './pages/Dashboard';
+import ProtectedRoute from "./lib/protectedroute"; 
+
 
 export default function App() {
   return (
@@ -14,7 +16,9 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/Signup" element={<SignupButton />} />
             <Route path="/Signin" element={<SigninButton />} />
-            <Route path="/Dashboard" element={<Dashboard/>}/>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/Dashboard" element={<Dashboard />} />
+            </Route>
           </Routes>
       <Foooter />
     </Router>

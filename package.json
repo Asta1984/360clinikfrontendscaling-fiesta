@@ -32,7 +32,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^12.4.10",
     "lucide-react": "^0.477.0",
-    "motion": "^12.4.10",
+    "motion": "^12.5.0",
     "react": "^19.0.0",
     "react-aria-components": "^1.7.0",
     "react-day-picker": "^8.10.1",

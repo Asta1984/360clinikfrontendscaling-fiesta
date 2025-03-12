@@ -1,4 +1,3 @@
-import { Check } from 'lucide-react';
 import { Button } from '../ui/button';
 
 interface ProfileCardProps {
@@ -7,6 +6,10 @@ interface ProfileCardProps {
   email: string;
   dateofbirth: string;
   contact: string;
+  speciality: string;
+  location: string;
+  experience: string;
+  role: 'doctor' | 'patient'; 
 }
 
 export function ProfileCard({
@@ -15,8 +18,11 @@ export function ProfileCard({
   email,
   dateofbirth,
   contact,
-
-}: ProfileCardProps) {
+  speciality,
+  location,
+  experience,
+  role 
+}: ProfileCardProps){
   return (
 
     <div className="w-[400px] rounded-3xl overflow-hidden bg-gradient-to-br from-transparent via-zinc-200 to-transparent p-6 shadow-xl border-primary border-r-4">
@@ -74,7 +80,7 @@ export function ProfileCard({
         </div>
 
         <div>
-          <label className="flex justify-items-start text-sm text-gray-500 mb-1">Location</label>
+          <label className="flex justify-items-start text-sm text-gray-500 mb-1">Contact</label>
           <button className="w-full px-3 py-2 rounded-lg bg-white/50 border border-gray-200 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span>{contact}</span>
@@ -82,19 +88,53 @@ export function ProfileCard({
           </button>
         </div>
 
-        <div>
-          <label className="flex justify-items-start text-sm text-gray-500 mb-1">D.O.B</label>
-          <div className="flex gap-2">
-            <div className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-500">
-              {dateofbirth}
+       {/* Date of Birth - only for patients */}
+       {role === 'patient' && (
+          <div>
+            <label className="flex justify-items-start text-sm text-gray-500 mb-1">D.O.B</label>
+            <div className="flex gap-2">
+              <div className="flex-1 px-3 py-2 rounded-lg bg-gray-100 text-gray-500">
+                {dateofbirth}
+              </div>
+              <button className="p-2 rounded-lg bg-white/50 border border-gray-200"></button>
             </div>
-            <button className="p-2 rounded-lg bg-white/50 border border-gray-200">
-              <Check size={16} className="text-blue-500" />
+          </div>
+        )}
+
+        {/* Speciality - only for doctors */}
+        {role === 'doctor' && (
+          <div>
+            <label className="flex justify-items-start text-sm text-gray-500 mb-1">Speciality</label>
+            <button className="w-full px-3 py-2 rounded-lg bg-white/50 border border-gray-200 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span>{speciality}</span>
+              </div>
             </button>
           </div>
-        </div>
-      </div>
+        )}
 
+        {/* Location - shown for both */}
+        <div>
+          <label className="flex justify-items-start text-sm text-gray-500 mb-1">Location</label>
+          <button className="w-full px-3 py-2 rounded-lg bg-white/50 border border-gray-200 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span>{location}</span>
+            </div>
+          </button>
+        </div>
+
+        {/* Experience - only for doctors */}
+        {role === 'doctor' && (
+          <div>
+            <label className="flex justify-items-start text-sm text-gray-500 mb-1">Experience</label>
+            <button className="w-full px-3 py-2 rounded-lg bg-white/50 border border-gray-200 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span>{experience}</span>
+              </div>
+            </button>
+          </div>
+        )}
+      </div>
       {/* Footer */}
       <div className="flex justify-end mt-6">
         <Button className="gap-2 text-secondary hover:text-accent">
