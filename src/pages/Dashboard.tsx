@@ -12,6 +12,7 @@ export default function Dashboard() {
   const location = useLocation();
   const role = location.state?.role || 'patient';  
 
+
   return (
     <>
       <motion.div 
@@ -22,8 +23,8 @@ export default function Dashboard() {
         className='mt-20 md:p-12 md:overflow-hidden md:mt-10'
       >
         <div className='border rounded-3xl border-primary border-r-8'>
-          <h1 className='font-bold p-10 text-4xl'>Welcome, Sienna</h1>
-          <div className='grid md:grid-cols-2 '>
+          <h1 className='font-bold p-10 text-4xl'>Welcome,</h1>
+          <div className='grid md:grid-cols-2 mb-5'>
             <ProfileStucture role ={role}/>
             <Appointment_Calendar/>
           </div>

@@ -6,7 +6,7 @@ interface ProfileStructureProps {
 
 export default function ProfileStructure({ role }: ProfileStructureProps) {
   return (
-    <div className="mx-10 flex p-4">
+    <div className="flex p-4">
       <ProfileCard
         role={role} 
       />

@@ -81,6 +81,11 @@ export function FullScreenCalendar({ data }: FullScreenCalendarProps) {
     setCurrentMonth(format(today, "MMM-yyyy"))
   }
 
+  // Function to get events for a specific day
+  const getEventsForDay = (day: Date) => {
+    return data.find(d => isSameDay(d.day, day))?.events || [];
+  }
+
   return (
     <div className="flex flex-1 flex-col">
       {/* Calendar Header */}
@@ -172,9 +177,8 @@ export function FullScreenCalendar({ data }: FullScreenCalendarProps) {
          <div className="flex text-xs leading-6 lg:flex-auto">
           <div className="hidden w-full border-x lg:grid lg:grid-cols-7 lg:grid-rows-5">
             {days.map((day, dayIdx) => {
-              const hasEvents = data.some(dateEntry => 
-                isSameDay(dateEntry.day, day) && dateEntry.events.length > 0
-              );
+              const dayEvents = getEventsForDay(day);
+              const hasEvents = dayEvents.length > 0;
 
               return !isDesktop ? (
                 <button
@@ -214,6 +218,11 @@ export function FullScreenCalendar({ data }: FullScreenCalendarProps) {
                   >
                     {format(day, "d")}
                   </time>
+                  {hasEvents && (
+                    <div className="mt-1">
+                      <div className="h-1.5 w-1.5 rounded-full bg-blue-600"></div>
+                    </div>
+                  )}
                 </button>
               ) : (
                 <div
@@ -261,6 +270,19 @@ export function FullScreenCalendar({ data }: FullScreenCalendarProps) {
                       </time>
                     </button>
                   </header>
+                  {hasEvents && (
+                    <div className="px-2 py-1">
+                      {dayEvents.map((event) => (
+                        <div
+                          key={event.id}
+                          className="mb-1 truncate rounded bg-blue-600/10 px-2 py-1 text-xs"
+                        >
+                          <p className="font-medium text-blue-600">{event.name}</p>
+                          <p className="text-blue-500">{event.time}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -269,9 +291,8 @@ export function FullScreenCalendar({ data }: FullScreenCalendarProps) {
           {/* Mobile View */}
           <div className="isolate grid w-full grid-cols-7 grid-rows-5 border-x lg:hidden">
             {days.map((day, dayIdx) => {
-              const hasEvents = data.some(dateEntry => 
-                isSameDay(dateEntry.day, day) && dateEntry.events.length > 0
-              );
+              const dayEvents = getEventsForDay(day);
+              const hasEvents = dayEvents.length > 0;
 
               return (
                 <button
@@ -311,6 +332,11 @@ export function FullScreenCalendar({ data }: FullScreenCalendarProps) {
                   >
                     {format(day, "d")}
                   </time>
+                  {hasEvents && (
+                    <div className="mt-1">
+                      <div className="h-1.5 w-1.5 rounded-full bg-blue-600"></div>
+                    </div>
+                  )}
                 </button>
               );
             })}

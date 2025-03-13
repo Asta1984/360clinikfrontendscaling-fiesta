@@ -1,115 +1,57 @@
 import { FullScreenCalendar } from "../ui/fullscreen-calendar"
+import  { useEffect } from 'react';
+import { useAppointmentStore } from '../../stores/appointmentStore';
+import { parseISO } from 'date-fns';
 
-const dummyEvents = [
-  {
-    day: new Date("2025-03-03"),
-    events: [
-      {
-        id: 1,
-        name: "Q1 Planning Session",
-        time: "10:00 AM",
-        datetime: "2025-03-03T00:00",
-      },
-      {
-        id: 2,
-        name: "Team Sync",
-        time: "2:00 PM",
-        datetime: "2025-03-03T00:00",
-      },
-    ],
-  },
-  {
-    day: new Date("2025-03-07"),
-    events: [
-      {
-        id: 3,
-        name: "Product Launch Review",
-        time: "2:00 PM",
-        datetime: "2025-01-07T00:00",
-      },
-      {
-        id: 4,
-        name: "Marketing Sync",
-        time: "11:00 AM",
-        datetime: "2025-01-07T00:00",
-      },
-      {
-        id: 5,
-        name: "Vendor Meeting",
-        time: "4:30 PM",
-        datetime: "2025-01-07T00:00",
-      },
-    ],
-  },
-  {
-    day: new Date("2025-10-03"),
-    events: [
-      {
-        id: 6,
-        name: "Team Building Workshop",
-        time: "11:00 AM",
-        datetime: "2025-01-10T00:00",
-      },
-    ],
-  },
-  {
-    day: new Date("2025-03-18"),
-    events: [
-      {
-        id: 7,
-        name: "Budget Analysis Meeting",
-        time: "3:30 PM",
-        datetime: "2025-01-14T00:00",
-      },
-      {
-        id: 8,
-        name: "Sprint Planning",
-        time: "9:00 AM",
-        datetime: "2025-01-14T00:00",
-      },
-      {
-        id: 9,
-        name: "Design Review",
-        time: "1:00 PM",
-        datetime: "2025-01-14T00:00",
-      },
-    ],
-  },
-  {
-    day: new Date("2025-03-16"),
-    events: [
-      {
-        id: 10,
-        name: "Client Presentation",
-        time: "10:00 AM",
-        datetime: "2025-01-16T00:00",
-      },
-      {
-        id: 11,
-        name: "Team Lunch",
-        time: "12:30 PM",
-        datetime: "2025-01-16T00:00",
-      },
-      {
-        id: 12,
-        name: "Project Status Update",
-        time: "2:00 PM",
-        datetime: "2025-01-16T00:00",
-      },
-    ],
-  },
-]
 
 function Appointment_Calendar() {
-  return (
+  const { appointments, fetchAppointments, loading } = useAppointmentStore();
 
-      <div className='sm:mb-5 md:-mt-12 md:-mx-16 '>
-            <div className="flex h-screen flex-col scale-75">
-            <FullScreenCalendar data={dummyEvents} />
-            
-            </div>
+  useEffect(() => {
+    // Fetch appointments when component mounts
+    // Assuming we're fetching for a doctor - adjust based on your needs
+    fetchAppointments('doctor');
+  }, [fetchAppointments]);
+
+  // Transform appointments into calendar data format
+  const calendarData = appointments.map(appointment => {
+    const appointmentDate = parseISO(appointment.date);
+    
+    // Create event object from appointment
+    const event = {
+      id: parseInt(appointment._id, 16), // Convert string ID to number
+      name: appointment.doctorId.toString().includes('firstName') 
+        ? `Appointment with Dr. ${(appointment.doctorId as any).firstName} ${(appointment.doctorId as any).lastName}`
+        : `Appointment with ${(appointment.patientId as any).firstName} ${(appointment.patientId as any).lastName}`,
+      time: `${appointment.startTime} - ${appointment.endTime}`,
+      datetime: appointment.date
+    };
+
+    return {
+      day: appointmentDate,
+      events: [event]
+    };
+  });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <p>Loading appointments...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className='sm:mb-5 md:-mt-12 md:-mx-16 '>
+    <div className="flex h-screen flex-col scale-75">
+    <div className="min-h-screen">
+      <FullScreenCalendar data={calendarData} />
     </div>
-  )
+    </div>
+    </div>
+
+  );
 }
+
 
 export { Appointment_Calendar }

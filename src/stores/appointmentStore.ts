@@ -1,4 +1,3 @@
-// appointmentStore.ts
 import { create } from 'zustand';
 import axiosInstance from '../lib/hooks/axiosInstance'; 
 
