@@ -48,7 +48,7 @@ export default function AppointmentNotification({ role }: AppointmentNotificatio
 
   return (
     <div className='border bg-gradient-to-br from-transparent via-zinc-200 to-transparent p-6 shadow-xl  rounded-3xl border-primary border-t-8'>
-    <h3 className='text-3xl mt-10 font-bold flex justify-center p-4'>Todays' Appointments</h3>
+    <h3 className='text-3xl mt-10 font-bold flex justify-center p-4'>Appointments` Scheduled</h3>
     <div className="w-full max-w-xl mx-auto p-3">
       {appointments.map((appointment) => {
         const displayName = getDisplayName(appointment);

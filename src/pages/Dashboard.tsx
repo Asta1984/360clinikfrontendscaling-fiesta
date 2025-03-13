@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import ProfileStucture from "@/components/common_profile_card";
 import { Appointment_Calendar } from '../components/HOC/appointment_calender';
 import SearchComponent from "@/components/HOC/search_bar";
-import Update_Avail from '@/components/HOC/doc_availability';
 import { Button } from '@/components/ui/button';
 import Update_Status from "@/components/update_status";
 import { useLocation } from "react-router-dom"; 
@@ -23,11 +22,11 @@ export default function Dashboard() {
         className='mt-20 md:p-12 md:overflow-hidden md:mt-10'
       >
         <div className='border rounded-3xl border-primary border-r-8'>
-          <h1 className='font-bold p-10 text-4xl'>Welcome,</h1>
+          <h1 className='font-bold p-10 text-4xl'>Welcome` {role}</h1>
           <div className='grid md:grid-cols-2 mb-5'>
             <ProfileStucture role ={role}/>
-            <Appointment_Calendar/>
-          </div>
+            <Appointment_Calendar role={role} />
+            </div>
         </div>
       </motion.div>
 
@@ -68,7 +67,6 @@ export default function Dashboard() {
         >
           <div className='grid w-full border border-primary border-r-8 rounded-3xl justify-center space-y-5'>
             <h1 className='font-bold text-2xl p-1 mt-5'>Update Availability</h1>
-            <Update_Avail/>
             <Update_Status/>
             <div className='flex justify-center p-4'>
               <Button variant={'default'} >Save</Button>
