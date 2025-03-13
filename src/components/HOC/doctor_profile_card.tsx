@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Stethoscope, Phone, Mail, Calendar } from 'lucide-react';
+import {useAuthStore} from "../../stores/authStore";
 
 interface Doctor {
   _id: string;
@@ -34,6 +35,8 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
     endTime: '',
     consultationLocation: 'Online'
   });
+  const token = useAuthStore((state) => state.token);
+  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -54,8 +57,7 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Add your authentication header here
-          'Authorization': 'Bearer YOUR_TOKEN_HERE'
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(appointmentData)
       });
