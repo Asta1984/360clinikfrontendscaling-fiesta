@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import ProfileStucture from "@/components/common_profile_card";
 import { Appointment_Calendar } from '../components/HOC/appointment_calender';
 import SearchComponent from "@/components/HOC/search_bar";
-import Appointment_accordian from '@/components/HOC/appointment_sec';
 import Update_Avail from '@/components/HOC/doc_availability';
 import { Button } from '@/components/ui/button';
 import Update_Status from "@/components/update_status";
 import { useLocation } from "react-router-dom"; 
+import AppointmentNotification from "@/components/ui/appointment_notification.tsx";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -37,7 +37,7 @@ export default function Dashboard() {
         viewport={{ once: true, margin: "-100px" }}
         className='p-10'
       >
-        <Appointment_accordian/>
+        <AppointmentNotification role = {role}/>
       </motion.div>
 
  {/* Book Appointments Section - Only for Patients */}
