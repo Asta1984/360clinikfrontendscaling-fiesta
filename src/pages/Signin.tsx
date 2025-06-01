@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useId } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { useAuthStore } from "../stores/authStore"; // Import Zustand store
-
+import { Popup } from "@/components/popup";
 
 export default function SigninButton() {
   const id = useId();
@@ -50,7 +50,8 @@ export default function SigninButton() {
   };
 
   return (
-    <div className="flex flex-col items-center mt-20">
+    <div className="flex flex-col items-center mt-20 z-0">
+      <div className="absolute z-20"><Popup/></div>
       <Card className=" md:w-1/3 bg-secondary/40">
         <CardContent>
           <div className="flex flex-col items-center gap-2">
